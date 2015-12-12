@@ -69,6 +69,9 @@ class Shiny_Updates {
 		if ( get_option( 'wp_auto_update_themes' ) ) {
 			add_filter( 'auto_update_theme', '__return_true' );
 		}
+
+		// Upgrade Network.
+		add_action( 'wp_ajax_upgrade-network', 'wp_ajax_upgrade_network' );
 	}
 
 	/**
@@ -280,6 +283,13 @@ add_action( 'init', array( 'Shiny_Updates', 'init' ) );
  * AJAX handler for activating a plugin.
  */
 function wp_ajax_activate_plugin() {
+
+}
+
+/**
+ * AJAX handler for upgrading a set of network sites.
+ */
+function wp_ajax_upgrade_network() {
 
 }
 
