@@ -466,9 +466,8 @@ window.wp = window.wp || {};
 	 * @since 4.5.0
 	 *
 	 * @param {string} plugin
-	 * @param {string} slug
 	 */
-	wp.updates.deletePlugin = function( plugin, slug ) {
+	wp.updates.deletePlugin = function( plugin ) {
 		var data;
 
 		wp.a11y.speak( wp.updates.l10n.deletinggMsg );
@@ -477,8 +476,7 @@ window.wp = window.wp || {};
 			wp.updates.updateQueue.push( {
 				type: 'delete-plugin',
 				data: {
-					plugin: plugin,
-					slug: slug
+					plugin: plugin
 				}
 			} );
 			return;
@@ -489,7 +487,6 @@ window.wp = window.wp || {};
 		data = {
 			_ajax_nonce:     wp.updates.ajaxNonce,
 			plugin:          plugin,
-			slug:            slug,
 			username:        wp.updates.filesystemCredentials.ftp.username,
 			password:        wp.updates.filesystemCredentials.ftp.password,
 			hostname:        wp.updates.filesystemCredentials.ftp.hostname,
@@ -516,7 +513,7 @@ window.wp = window.wp || {};
 		wp.updates.updateDoneSuccessfully = true;
 
 		// Removes the plugin and updates rows.
-		$( '#' + response.slug + '-update, #' + response.id ).css( { backgroundColor:'#faafaa' } ).fadeOut( 350, function() {
+		$( 'tr[data-plugin="' + response.plugin + '"]' ).css( { backgroundColor:'#faafaa' } ).fadeOut( 350, function() {
 			$( this ).remove();
 		} );
 
@@ -885,7 +882,7 @@ window.wp = window.wp || {};
 				break;
 
 			case 'delete-plugin':
-				wp.updates.deletePlugin( job.data.plugin, job.data.slug );
+				wp.updates.deletePlugin( job.data.plugin );
 				break;
 
 			case 'install-theme':
@@ -994,7 +991,7 @@ window.wp = window.wp || {};
 				wp.updates.requestFilesystemCredentials( event );
 			}
 
-			wp.updates.deletePlugin( $link.data( 'plugin' ), $link.data( 'slug' ) );
+			wp.updates.deletePlugin( $link.data( 'plugin' ) );
 		} );
 
 		/**

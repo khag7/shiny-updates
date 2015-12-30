@@ -492,7 +492,7 @@ function wp_ajax_delete_theme() {
 function wp_ajax_delete_plugin() {
 	check_ajax_referer( 'updates' );
 
-	if ( empty( $_POST['slug'] ) || empty( $_POST['plugin'] ) ) {
+	if ( empty( $_POST['plugin'] ) ) {
 		wp_send_json_error( array( 'errorCode' => 'no_plugin_specified' ) );
 	}
 
@@ -501,8 +501,6 @@ function wp_ajax_delete_plugin() {
 
 	$status = array(
 		'delete' => 'plugin',
-		'id'     => sanitize_title( $plugin_data['Name'] ),
-		'slug'   => sanitize_key( $_POST['slug'] ),
 		'plugin' => $plugin,
 	);
 
